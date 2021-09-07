@@ -26,10 +26,16 @@ const Banner = styled.div`
    background-image: url(${({ img }) => img});
    background-size: cover;
    background-position: center;
-   margin-bottom: 20px;
 `;
-const Item = styled.div`
-   font-family: Pacifico;
+const Content = styled.section`
+   padding: 30px;
+   display: flex;
+   justify-content: space-between;
+   flex-direction: column;
+   height: calc(100% - 200px);
+`;
+const HeaderContent = styled.div`
+   font-family: 'Pacifico', cursive;
    font-size: 30px;
    display: flex;
    justify-content: space-around;
@@ -46,12 +52,14 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
       <Overlay id="overlay" onClick={closeModal}>
          <Modal>
             <Banner img={openItem.img} />
-            <Item>
-               <p>{openItem.name}</p>
-               <p>{openItem.price.toLocaleString('ru-RU',
-                  { style: 'currency', currency: 'RUB' })}</p>
-            </Item>
-            <ButtonAdd />
+            <Content>
+               <HeaderContent>
+                  <div>{openItem.name}</div>
+                  <div>{openItem.price.toLocaleString('ru-RU',
+                     { style: 'currency', currency: 'RUB' })}</div>
+               </HeaderContent>
+               <ButtonAdd>Добавить</ButtonAdd>
+            </Content>
          </Modal>
       </Overlay>
    )
