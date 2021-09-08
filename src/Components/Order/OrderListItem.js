@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import TrashImage from '../img/trash.svg';
+import TrashImage from '../../img/trash.svg';
 
 const OrderItemStyled = styled.li`
    display:flex;
    margin: 15px 0;
 `;
-
 const TrashButton = styled.button`
    width: 24px;
    heigh: 24px;
@@ -15,6 +14,7 @@ const TrashButton = styled.button`
    background-position: center;
    background-size: cover;
    background-repeat: no-repeat;
+   background-color: transparent;
 `;
 const ItemName = styled.span`
    flex-grow: 1;
@@ -27,11 +27,12 @@ const ItemPrice = styled.span`
    text-align: right;
 `;
 
-export const OrderListItem = () => (
+export const OrderListItem = ({ order }) => (
    <OrderItemStyled>
-      <ItemName>JS Burger</ItemName>
+      <ItemName>{order.name}</ItemName>
       <ItemTotal>2</ItemTotal>
-      <ItemPrice>750 P</ItemPrice>
+      <ItemPrice>{order.price.toLocaleString('ru-RU',
+         { style: 'currency', currency: 'RUB' })}</ItemPrice>
       <TrashButton />
    </OrderItemStyled>
 );

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ButtonAdd } from './ButtonAdd';
+import { ButtonAdd } from '../Style/ButtonAdd';
 import { OrderListItem } from './OrderListItem';
 
 const OrderStyled = styled.section`
@@ -14,7 +14,6 @@ const OrderStyled = styled.section`
    box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.25);
    padding: 20px;
 `;
-
 const OrderTitle = styled.h2`
    text-align: center;
    margin-bottom: 30px;
@@ -36,17 +35,20 @@ const TotalPrice = styled.span`
    min-width: 65px;
    text-align: right;
 `;
+const EmptyList = styled.p`
+   text-align: center;
+`;
 
-export const Order = () => {
+export const Order = ({ orders }) => {
    return (
       <OrderStyled>
          <OrderTitle>ВАШ ЗАКАЗ</OrderTitle>
          <OrderContent>
-            <OrderList>
-               <OrderListItem />
-               <OrderListItem />
-               <OrderListItem />
-            </OrderList>
+            {orders.length ?
+               <OrderList>
+                  {orders.map(order => <OrderListItem order={order} key={order.id} />)}
+               </OrderList> :
+               <EmptyList>Список заказов пуст</EmptyList>}
          </OrderContent>
          <Total>
             <span>ИТОГО</span>

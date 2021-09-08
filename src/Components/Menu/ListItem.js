@@ -6,9 +6,8 @@ const List = styled.ul`
    justify-content: space-around;
    flex-wrap: wrap;
 `;
-
 const Item = styled.li`
-   color: #b93c00;
+   color: #fff;
    text-shadow: 1px 1px 2px black;
    position: relative;
    width: 400px;
@@ -34,8 +33,7 @@ const Item = styled.li`
    }
    &:hover {
       cursor: pointer;
-      box-shadow: 5px 0px 20px 0px #008a77;
-      border: 1px solid #008a77;
+      box-shadow: 0px 0px 20px 0px #008a77;
       &:after {
          opacity: 0;
       }

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import LogoImg from '../img/logo.svg';
-import AvaUser from '../img/user.svg';
+import LogoImg from '../../img/logo.svg';
+import AvaUser from '../../img/user.svg';
 
 const NavBarStyled = styled.header`
       position: fixed;
@@ -9,7 +9,7 @@ const NavBarStyled = styled.header`
       left: 0;
       z-index: 999;
       height: 80px;
-      width: 100vw;
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -17,21 +17,17 @@ const NavBarStyled = styled.header`
       background-color: #008a77;
       color: white;
 `;
-
 const Logo = styled.div`
       display: flex;
       align-items: center;
 `;
-
 const H1 = styled.h1`
       font-size: 24px;
       margin-left: 15px;
 `;
-
 const ImgLogo = styled.img`
       width: 50px;
 `;
-
 const Login = styled.button`
       color: #FFFFFF;
       font-size: 16px;
