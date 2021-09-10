@@ -4,12 +4,12 @@ import { Menu } from './Components/Menu/Menu';
 import { GlobalStyle } from './Components/Style/GlobalStyle';
 import { ModalItem } from './Components/Modal/ModalItem';
 import { Order } from './Components/Order/Order';
-import { UseOpenItem } from './Components/Hooks/UseOpenItem';
-import { UseOrders } from './Components/Hooks/UseOrders';
+import { useOpenItem } from './Components/Hooks/useOpenItem';
+import { useOrders } from './Components/Hooks/useOrders';
 
 function App() {
-  const openItem = UseOpenItem();
-  const orders = UseOrders();
+  const openItem = useOpenItem();
+  const orders = useOrders();
 
   return (
     <>
