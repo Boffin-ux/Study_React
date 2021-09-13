@@ -9,6 +9,7 @@ import { Toppings } from './Toppings';
 import { Choices } from './Choices';
 import { useToppings } from '../Hooks/useToppings';
 import { useChoices } from '../Hooks/useChoices';
+import { useTitle } from '../Hooks/useTitle';
 
 const Overlay = styled.div`
    position: fixed;
@@ -57,6 +58,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
    const counter = useCount(openItem.count);
    const toppings = useToppings(openItem);
    const choices = useChoices(openItem);
+   useTitle(openItem);
    const isEdit = openItem.index > -1;
 
    const closeModal = (e) => {

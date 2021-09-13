@@ -4,6 +4,8 @@ import { ButtonAdd } from '../Style/ButtonAdd';
 import { OrderListItem } from './OrderListItem';
 import { totalPriceItems } from '../Functions/secondaryFunction';
 import { formatCurrency } from '../Functions/secondaryFunction';
+import { projection } from '../Functions/secondaryFunction';
+import { ref, set } from "firebase/database";
 
 const OrderStyled = styled.section`
    display: flex;
@@ -44,7 +46,33 @@ const EmptyList = styled.p`
    text-align: center;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn }) => {
+const rulesData = {
+   itemName: ['name'],
+   price: ['price'],
+   count: ['count'],
+   toppings: ['topping', arr => arr.filter(obj => obj.checked).map(obj => obj.name),
+      arr => arr.length ? arr : 'no toppings'],
+   choices: ['choice', item => item ? item : 'no choices'],
+};
+
+export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, firebaseDataBase }) => {
+   const sendOrder = () => {
+      const db = firebaseDataBase();
+      const newOrder = orders.map(projection(rulesData));
+      set(ref(db, 'orders'), {
+         nameClient: authentication.displayName,
+         email: authentication.email,
+         order: newOrder,
+      })
+         .then(() => {
+            const clearOrders = [];
+            setOrders(clearOrders);
+         })
+         .catch((error) => {
+            console.log(error);
+         });
+   };
+
    const deleteItem = index => {
       const newOrders = [...orders];
       newOrders.splice(index, 1);
@@ -80,7 +108,13 @@ export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn })
                {formatCurrency(total)}
             </TotalPrice>
          </Total>
-         <ButtonAdd onClick={!authentication ? logIn : console.log(orders)}>Оформить</ButtonAdd>
+         <ButtonAdd onClick={() => {
+            if (!authentication) {
+               logIn();
+            } else if (orders.length !== 0) {
+               sendOrder();
+            }
+         }} disabled={orders.length === 0}>Оформить</ButtonAdd>
       </OrderStyled >
    )
 }

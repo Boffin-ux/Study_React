@@ -20,6 +20,6 @@ export const ButtonAdd = styled.button`
    &:disabled {
       color: #bbb;
       background-color: #73908c;
-      border-color: #aaa;
+      border: solid 1px #aaa;
    }
 `;
