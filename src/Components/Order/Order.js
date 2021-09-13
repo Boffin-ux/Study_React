@@ -44,7 +44,7 @@ const EmptyList = styled.p`
    text-align: center;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem }) => {
+export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn }) => {
    const deleteItem = index => {
       const newOrders = [...orders];
       newOrders.splice(index, 1);
@@ -80,7 +80,7 @@ export const Order = ({ orders, setOrders, setOpenItem }) => {
                {formatCurrency(total)}
             </TotalPrice>
          </Total>
-         <ButtonAdd>Оформить</ButtonAdd>
-      </OrderStyled>
+         <ButtonAdd onClick={!authentication ? logIn : console.log(orders)}>Оформить</ButtonAdd>
+      </OrderStyled >
    )
 }
