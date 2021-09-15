@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import styled from 'styled-components';
 import TrashImage from '../../img/trash.svg';
 import { totalPriceItems } from '../Functions/secondaryFunction';
 import { formatCurrency } from '../Functions/secondaryFunction';
+import { Context } from '../Functions/context';
 
 const OrderItemStyled = styled.li`
    display:flex;
@@ -36,7 +37,9 @@ const ItemTopping = styled.div`
    width: 100%;
 `;
 
-export const OrderListItem = ({ order, index, deleteItem, setOpenItem }) => {
+export const OrderListItem = ({ order, index, deleteItem }) => {
+   const { openItem: { setOpenItem } } = useContext(Context);
+
    const toppings = order.topping.filter(item => item.checked).map(item => item.name).join(', ');
    const refDeleteButton = useRef(null);
 

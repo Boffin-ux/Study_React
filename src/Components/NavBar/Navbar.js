@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Context } from '../Functions/context';
 import styled from 'styled-components';
 import LogoImg from '../../img/logo.svg';
 import AvaUser from '../../img/user.svg';
@@ -48,25 +49,29 @@ const Figure = styled.figure`
       margin: 0 30px;
 `;
 
-export const NavBar = ({ authentication, logIn, logOut }) => (
-      <NavBarStyled>
-            <Logo>
-                  <ImgLogo src={LogoImg} alt="logo" />
-                  <H1>MrDonald's</H1>
-            </Logo>
-            {authentication ?
-                  <User>
-                        <Figure>
-                              <img src={AvaUser} alt={authentication.displayName} />
-                              <figcaption>{authentication.displayName}</figcaption>
-                        </Figure>
-                        <LogOut title="Выйти" onClick={logOut}>X</LogOut>
-                  </User> :
-                  <Login onClick={logIn}>
-                        <Figure>
-                              <img src={AvaUser} alt="Login" />
-                              <p>Войти</p>
-                        </Figure>
-                  </Login>}
-      </NavBarStyled>
-);
+export const NavBar = () => {
+      const { auth: { authentication, logIn, logOut } } = useContext(Context);
+
+      return (
+            <NavBarStyled>
+                  <Logo>
+                        <ImgLogo src={LogoImg} alt="logo" />
+                        <H1>MrDonald's</H1>
+                  </Logo>
+                  {authentication ?
+                        <User>
+                              <Figure>
+                                    <img src={AvaUser} alt={authentication.displayName} />
+                                    <figcaption>{authentication.displayName}</figcaption>
+                              </Figure>
+                              <LogOut title="Выйти" onClick={logOut}>X</LogOut>
+                        </User> :
+                        <Login onClick={logIn}>
+                              <Figure>
+                                    <img src={AvaUser} alt="Login" />
+                                    <p>Войти</p>
+                              </Figure>
+                        </Login>}
+            </NavBarStyled>
+      )
+};

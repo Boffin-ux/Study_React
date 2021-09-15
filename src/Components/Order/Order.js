@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Context } from '../Functions/context';
 import styled from 'styled-components';
 import { ButtonAdd } from '../Style/ButtonAdd';
 import { OrderListItem } from './OrderListItem';
-import { totalPriceItems } from '../Functions/secondaryFunction';
-import { formatCurrency } from '../Functions/secondaryFunction';
-import { projection } from '../Functions/secondaryFunction';
-import { ref, set } from "firebase/database";
+import { totalPriceItems, formatCurrency } from '../Functions/secondaryFunction';
+import { OrderTitle, Total, TotalPrice } from '../Style/OverlayStyle';
 
 const OrderStyled = styled.section`
    display: flex;
@@ -18,10 +17,6 @@ const OrderStyled = styled.section`
    box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.25);
    padding: 20px;
 `;
-const OrderTitle = styled.h2`
-   text-align: center;
-   margin-bottom: 30px;
-`;
 const OrderContent = styled.div`
    flex-grow: 1;
    overflow-y: auto;
@@ -29,48 +24,16 @@ const OrderContent = styled.div`
 const OrderList = styled.ul`
    padding-bottom: 20px;
 `;
-const Total = styled.div`
-   display: flex;
-   margin: 30px 35px;
-   & span:first-child {
-      flex-grow: 1;
-   }
-`;
-const TotalPrice = styled.span`
-   margin-left: 20px;
-   margin-right: 20px;
-   min-width: 65px;
-   text-align: right;
-`;
 const EmptyList = styled.p`
    text-align: center;
 `;
 
-const rulesData = {
-   itemName: ['name'],
-   price: ['price'],
-   count: ['count'],
-   toppings: ['topping', arr => arr.filter(obj => obj.checked).map(obj => obj.name),
-      arr => arr.length ? arr : 'no toppings'],
-   choices: ['choice', item => item ? item : 'no choices'],
-};
-
-export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, database }) => {
-   const sendOrder = () => {
-      const newOrder = orders.map(projection(rulesData));
-      set(ref(database, 'orders'), {
-         nameClient: authentication.displayName,
-         email: authentication.email,
-         order: newOrder,
-      })
-         .then(() => {
-            const clearOrders = [];
-            setOrders(clearOrders);
-         })
-         .catch((error) => {
-            console.log(error);
-         });
-   };
+export const Order = () => {
+   const {
+      auth: { authentication, logIn },
+      orders: { orders, setOrders },
+      orderConfirm: { setOpenOrderConfirm }
+   } = useContext(Context);
 
    const deleteItem = index => {
       const newOrders = [...orders];
@@ -95,25 +58,28 @@ export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, d
                      key={i}
                      deleteItem={deleteItem}
                      index={i}
-                     setOpenItem={setOpenItem}
                   />)}
                </OrderList> :
                <EmptyList>Список заказов пуст</EmptyList>}
          </OrderContent>
-         <Total>
-            <span>ИТОГО</span>
-            <span>{totalCounter}</span>
-            <TotalPrice>
-               {formatCurrency(total)}
-            </TotalPrice>
-         </Total>
-         <ButtonAdd onClick={() => {
-            if (!authentication) {
-               logIn();
-            } else if (orders.length !== 0) {
-               sendOrder();
-            }
-         }} disabled={orders.length === 0}>Оформить</ButtonAdd>
+         {orders.length ?
+            <>
+               <Total>
+                  <span>ИТОГО</span>
+                  <span>{totalCounter}</span>
+                  <TotalPrice>
+                     {formatCurrency(total)}
+                  </TotalPrice>
+               </Total>
+               <ButtonAdd onClick={() => {
+                  if (authentication) {
+                     setOpenOrderConfirm(true);
+                  } else {
+                     logIn();
+                  }
+               }} disabled={orders.length === 0}>Оформить</ButtonAdd>
+            </> :
+            null}
       </OrderStyled >
    )
 }

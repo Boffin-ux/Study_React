@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Context } from '../Functions/context';
 import styled from 'styled-components';
 import { ListItem } from './ListItem';
 import { Banner } from './Banner';
@@ -14,9 +15,10 @@ const SectionMenu = styled.section`
    padding: 30px;
 `;
 
-export const Menu = ({ setOpenItem, dbMenu }) => {
+export const Menu = () => {
    // const res = useFetch();
    // const dbMenu = res.response;
+   const { dbMenu } = useContext(Context);
 
    return (
       <MenuStyled>
@@ -27,14 +29,12 @@ export const Menu = ({ setOpenItem, dbMenu }) => {
                   <h2>Бургеры</h2>
                   <ListItem
                      itemList={dbMenu.burger}
-                     setOpenItem={setOpenItem}
                   />
                </SectionMenu>
                <SectionMenu>
                   <h2>Закуски / Напитки</h2>
                   <ListItem
                      itemList={dbMenu.other}
-                     setOpenItem={setOpenItem}
                   />
                </SectionMenu>
             </> : <PreLoader />

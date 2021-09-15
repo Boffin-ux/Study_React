@@ -6,4 +6,4 @@ export const useCount = (startCount) => {
    const onChange = e => setCount(e.target.value);
 
    return { count, setCount, onChange };
-}
+};
